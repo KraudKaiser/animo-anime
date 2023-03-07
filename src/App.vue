@@ -2,7 +2,6 @@
   <v-app>
     
     <v-main>
-		<router-link to="/">Inicio</router-link>
       <router-view/>
     </v-main>
   </v-app>

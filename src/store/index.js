@@ -5,7 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-	links:["inicio", "directorio", "novedades", "proximamente"]
+	links:[
+		{title:"Inicio", path:"/"},
+		{title:"Directorio", path:"/directory"},
+		{title:"Novedades", path:"/features"},
+		{title:"Sobre Nosotros", path:"/about"},
+	],
+	routes:["/","/directory", "/features","/about"]
   },
   getters: {
   },
