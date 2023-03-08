@@ -17,12 +17,16 @@
 	import AppBar from "../components/AppBar.vue"
 	import AnimeSheet from "../components/AnimeSheet.vue"
 	import TopPopulars from '@/components/TopPopulars'
+	import {mapState, mapActions} from "vuex"
 	export default {
 		components:{
 			AppBar,
 			AnimeSheet,
 			TopPopulars,
 			
+		},
+		computed:{
+			...mapState("animes", ["animes"])
 		},
 		data(){
 			return{
@@ -34,6 +38,12 @@
 					}
 				]
 			}
+		},
+		mounted(){
+			this.fetchAnimes()
+		},
+		methods:{
+			...mapActions("animes", ["fetchAnimes"])
 		}
 	}
 </script>

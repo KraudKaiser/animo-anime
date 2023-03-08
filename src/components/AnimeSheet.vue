@@ -8,14 +8,13 @@
     >
       <v-slide-item
 	  class="mb-16"
-        v-for="(card, index) in cards"
-        :key="index"
+        v-for="(anime) in animes"
+        :key="anime.id"
 		
       >
         <anime-card 
-		:title="card.title"
-		:description="card.description"
-		:image-url="card.imageUrl"></anime-card>
+		:title="anime.title"
+		:image-url="anime.thumbnailUrl"></anime-card>
       </v-slide-item>
     </v-slide-group>
    
@@ -23,41 +22,30 @@
 
 <script>
 import AnimeCard from './AnimeCard.vue';
+import {mapState, mapActions} from "vuex"
 export default {
 	components:{
 		AnimeCard
 	},
-	data() {
-	  return {
-		cards: [
-		  {
-			title: 'Película 1',
-			description: 'Descripción de la película 1',
-			imageUrl: 'https://picsum.photos/id/237/300/200'
-		  },
-		  {
-			title: 'Película 2',
-			description: 'Descripción de la película 2',
-			imageUrl: 'https://picsum.photos/id/238/300/200'
-		  },
-		  {
-			title: 'Película 3',
-			description: 'Descripción de la película 3',
-			imageUrl: 'https://picsum.photos/id/239/300/200'
-		  },
-		  {
-			  title: 'Película 4',
-			  description: 'Descripción de la película 4',
-			  imageUrl: 'https://picsum.photos/id/240/300/200'
-			},
-			{
-			  title: 'Película 5',
-			  description: 'Descripción de la película 5',
-			  imageUrl: 'https://picsum.photos/id/241/300/200'
-			},
-			
-		]
-	  }
+	computed:{
+			...mapState(["animes"])
+		},
+		data(){
+			return{
+				movies:[
+					{
+						title:"pelicula 1",
+						description:"descripcion de la pelicula 1",
+						poster:"https://via.placeholder.com/300x400?text=Pelicula+1"
+					}
+				]
+			}
+		},
+		mounted(){
+			this.fetchAnimes()
+		},
+		methods:{
+			...mapActions(["fetchAnimes"])
+		}
 	}
-}
 </script>
