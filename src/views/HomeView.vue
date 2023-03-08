@@ -21,7 +21,19 @@
 		components:{
 			AppBar,
 			AnimeSheet,
-			TopPopulars
+			TopPopulars,
+			
+		},
+		data(){
+			return{
+				movies:[
+					{
+						title:"pelicula 1",
+						description:"descripcion de la pelicula 1",
+						poster:"https://via.placeholder.com/300x400?text=Pelicula+1"
+					}
+				]
+			}
 		}
 	}
 </script>
