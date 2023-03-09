@@ -14,7 +14,10 @@ export default new Vuex.Store({
 		{title:"Sobre Nosotros", path:"/about"},
 	],
 	routes:["/","/directory", "/features","/about"],
-	animes:[]
+	animes:[],
+	//Login
+	user: null,
+	token: null,
   },
   //se utiliza para cambiar las variables en state
   //reciben siempre como primer parametro state
@@ -22,7 +25,20 @@ export default new Vuex.Store({
   mutations: {
 	setAnimes(state, animes){
 		state.animes = animes
-	}
+	},
+	//Mutations para Login
+	SET_USER(state, user) {
+		state.user = user;
+	  },
+	
+	  SET_TOKEN(state, token) {
+		state.token = token;
+	  },
+	
+	  CLEAR_AUTH(state) {
+		state.user = null;
+		state.token = null;
+	  },
   },
   //Actions es para cambiar las variables de state async
   //pero debe hacer commit de las variables en mutations

@@ -20,36 +20,45 @@
 	
 	
 	<v-responsive max-width="260">
-		<v-text-field prepend-inner-icon="mdi-magnify"
-		dense
-		flat
-		hide-details
-		rounded
-		solo-inverted
-		></v-text-field>
+		<!-- /*
+	-->
+	<anime-search></anime-search>
 	</v-responsive>
 	<v-spacer></v-spacer>
 
-	<router-link to="/profile">
-		<v-avatar
-		class="mr-10"
-		color="grey darken-1"
-		size="32"
-		>
-		<v-btn>
-			<v-icon>
-				mdi-account
-			</v-icon>
-		</v-btn>
-		</v-avatar>
-	</router-link>
+	
+	<v-menu offset-y>
+	<template v-slot:activator="{ on }">
+				<v-avatar>
+					<v-btn v-on="on">{{ /*user.email*/ }}<v-icon>
+						mdi-account
+					</v-icon></v-btn>
+				</v-avatar>
+				</template>
+			<v-list>
+				<v-list-item to="/profile">
+					<v-list-item-title >Perfil</v-list-item-title>
+				</v-list-item>
+				<v-list-item to="/admin">
+					<v-list-item-title>Panel de administración</v-list-item-title>
+				</v-list-item>
+				<v-divider></v-divider>
+				<v-list-item to="/" @click="logout">
+					<v-list-item-title>Cerrar sesión</v-list-item-title>
+				</v-list-item>
+			</v-list>
+		</v-menu>
 </v-container>
 </v-app-bar>
 </template>
 
 <script>
+import AnimeSearch from "./AnimeSearch.vue";
 	import {mapState} from "vuex"
 	export default{
+		components:{
+			AnimeSearch
+		},
 	computed: mapState(["links", "routes"])
 
 }

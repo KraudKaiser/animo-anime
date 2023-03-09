@@ -3,9 +3,9 @@
 		
 		<app-bar></app-bar>
 		<v-main class="grey lighten-3">
-		<v-container>
+		<v-container class="d-inline-flex">
 			<top-populars></top-populars>
-			<v-sheet>
+			<v-sheet class="d-inline-flex">
 				<anime-sheet></anime-sheet>		
 			</v-sheet>
 	</v-container>
