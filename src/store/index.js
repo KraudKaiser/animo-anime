@@ -11,7 +11,6 @@ export default new Vuex.Store({
 	links:[
 		{title:"Inicio", path:"/"},
 		{title:"Directorio", path:"/directory"},
-		{title:"Novedades", path:"/features"},
 		{title:"Sobre Nosotros", path:"/about"},
 	],
 	routes:["/","/directory", "/features","/about"],
