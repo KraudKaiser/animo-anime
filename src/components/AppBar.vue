@@ -35,10 +35,16 @@
 					</v-icon></v-btn>
 				</v-avatar>
 				</template>
-			<v-list>
-				<v-list-item to="/profile">
-					<v-list-item-title >Perfil</v-list-item-title>
+				<v-list v-if="user === null">
+				<v-list-item to="/login" >
+				<v-list-item-title >Iniciar Sesion</v-list-item-title>
 				</v-list-item>
+				</v-list>
+				
+				<v-list v-else>
+					<v-list-item  to="/profile">
+						<v-list-item-title >Perfil</v-list-item-title>
+					</v-list-item>
 				<v-list-item to="/admin">
 					<v-list-item-title>Panel de administración</v-list-item-title>
 				</v-list-item>
@@ -59,7 +65,7 @@ import AnimeSearch from "./AnimeSearch.vue";
 		components:{
 			AnimeSearch
 		},
-	computed: mapState(["links", "routes"])
+	computed: mapState(["links", "routes", "user"])
 
 }
 </script>

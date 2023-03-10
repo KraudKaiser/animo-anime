@@ -14,8 +14,13 @@
 			<v-card-title>{{ anime.title }}</v-card-title>
 			<v-card-subtitle>{{ anime.genre }}</v-card-subtitle>
 			<v-card-actions>
-			  <v-btn text>Ver más</v-btn>
-			  <v-btn text>Agregar a favoritos</v-btn>
+			  <v-btn :to="`${anime.title}`" text>Ver más</v-btn>
+			  <v-icon
+            @click="toggleLike(index)"
+            :class="{ 'red--text': anime.isLiked }"
+          >
+            {{ anime.isLiked ? 'mdi-heart' : 'mdi-heart-outline' }}
+          </v-icon>
 			</v-card-actions>
 		  </v-card>
 		</v-col>

@@ -15,8 +15,19 @@ export default new Vuex.Store({
 	],
 	routes:["/","/directory", "/features","/about"],
 	animes:[],
+	categories:[],
 	//Login
-	user: null,
+	user: {
+		name: 'John Doe',
+		email: 'johndoe@example.com',
+		animes: [
+		  { title: 'Death Note', genre: 'Mystery', isLiked: true },
+		  { title: 'Attack on Titan', genre: 'Action', isLiked: true },
+		  { title: 'Your Lie in April', genre: 'Romance', isLiked: false },
+		  { title: 'One Punch Man', genre: 'Comedy', isLiked: false },
+		  { title: 'Fullmetal Alchemist', genre: 'Adventure', isLiked: true },
+		],
+	  },
 	token: null,
   },
   //se utiliza para cambiar las variables en state
@@ -39,7 +50,17 @@ export default new Vuex.Store({
 		state.user = null;
 		state.token = null;
 	  },
-  },
+	  //Activa o desactiva like
+	  toggleLike(state, index) {
+		state.user.animes[index].isLiked = !state.user.animes[index].isLiked;
+	  },
+		addCategory(state, category) {
+		  state.categories.push(category);
+		},
+		addAnime(state, anime) {
+		  state.animes.push(anime);
+		},
+	  },
   //Actions es para cambiar las variables de state async
   //pero debe hacer commit de las variables en mutations
   //reciben contexto, destructurandolo a commit
@@ -48,10 +69,42 @@ export default new Vuex.Store({
 		axios.get("https://jsonplaceholder.typicode.com/photos")
 		.then(response => {
 			commit("setAnimes", response.data.splice(4995))
-	}
-	)
-	}
-  },
+		})
+	},
+	uploadFile({ commit }, file) {
+		const formData = new FormData();
+		formData.append('file', file);
+  
+		return axios.post('/api/upload', formData, {
+		  headers: {
+			'Content-Type': 'multipart/form-data',
+		  },
+		})
+		.then(response => {
+		  const imageUrl = response.data.imageUrl;
+		  commit('setImage', imageUrl);
+		  return imageUrl;
+		});
+	  },
+  
+	  addAnime({ commit }, anime) {
+		commit('addAnime', anime);
+	  },
+  
+	  async addAnimeWithImage({ dispatch, commit }, { anime, file }) {
+		try {
+		  const imageUrl = await dispatch('uploadFile', file);
+		  anime.coverImage = imageUrl;
+		  commit('addAnime', anime);
+		  return true;
+		} catch (error) {
+		  console.error(error);
+		  return false;
+		}
+	  },
+	  
+	},
+  
 
   //funcionan como las computed properties.
   getters: {
