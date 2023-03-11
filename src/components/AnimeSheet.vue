@@ -14,7 +14,7 @@
       >
         <anime-card 
 		:title="anime.title"
-		:image-url="anime.thumbnailUrl"></anime-card>
+		:image-url="anime.poster"></anime-card>
       </v-slide-item>
     </v-slide-group>
    
@@ -36,7 +36,7 @@ export default {
 					{
 						title:"pelicula 1",
 						description:"descripcion de la pelicula 1",
-						poster:"https://via.placeholder.com/300x400?text=Pelicula+1"
+						poster:"https://static.wikia.nocookie.net/deathnote/images/0/05/Death-note-xd.jpg/revision/latest?cb=20110803022625&path-prefix=es"
 					}
 				]
 			}

@@ -20,6 +20,11 @@ export default new Vuex.Store({
 	//Login
 	user:null,
 	token: null,
+	snackbar:{
+		show:false,
+		color:"",
+		text:"" 
+	}
   },
   //se utiliza para cambiar las variables en state
   //reciben siempre como primer parametro state
@@ -27,6 +32,12 @@ export default new Vuex.Store({
   mutations: {
 	setAnimes(state, animes){
 		state.animes = animes
+	},
+	setSnackBar(state, data){
+		const {color, text} = data
+			state.snackbar.show = true	
+			state.snackbar.color = color
+			state.snackbar.text = text
 	},
 	//Mutations para Login
 	SET_USER(state, user) {
@@ -52,48 +63,40 @@ export default new Vuex.Store({
 		addAnime(state, anime) {
 		  state.animes.push(anime)
 		},
+		
 	  },
   //Actions es para cambiar las variables de state async
   //pero debe hacer commit de las variables en mutations
   //reciben contexto, destructurandolo a commit
   actions: {
-	fetchAnimes({commit}){
-		axios.get("https://jsonplaceholder.typicode.com/photos")
-		.then(response => {
-			commit("setAnimes", response.data.splice(4995))
-		})
-	},
-	uploadFile({ commit }, file) {
-		const formData = new FormData()
-		formData.append('file', file)
-  
-		return axios.post('/api/upload', formData, {
-		  headers: {
-			'Content-Type': 'multipart/form-data',
-		  },
-		})
-		.then(response => {
-		  const imageUrl = response.data.imageUrl
-		  commit('setImage', imageUrl)
-		  return imageUrl
+	  addAnime({commit},anime) {
+		return new Promise((resolve, reject )=>{
+			axios.post("http://localhost:8081/anime/", anime)
+			.then((response) =>{
+				commit("setSnackBar",{color:"green", text:`El anime ${response.data.title} ha sido añadido exitosamente`})
+				resolve()
+			})
+			.catch((e)=>{
+				commit("setSnackBar", {color:"error", text:e.response.data.error})
+				reject()
+			})
 		})
 	  },
+	  addCategory({commit}, category){
+		  return new Promise((resolve, reject)=>{
+			  axios.post("http://localhost:8081/category/", category).then((response) =>{
+				 commit("setSnackBar", {color:"green", text:`La Categoria ${response.data.name} ha sido Añadida`})
+				  resolve()
+				})
+				.catch((e) =>{
+					reject(e)
+					commit("setSnackBar", {color:"error", text:"Ocurrio un error, Quizas la categoria ya existe"})
+				})
+			})
+		},
+			
   
-	  addAnime({ commit }, anime) {
-		commit('addAnime', anime)
-	  },
-  
-	  async addAnimeWithImage({ dispatch, commit }, { anime, file }) {
-		try {
-		  const imageUrl = await dispatch('uploadFile', file)
-		  anime.coverImage = imageUrl
-		  commit('addAnime', anime)
-		  return true
-		} catch (error) {
-		  console.error(error)
-		  return false
-		}
-	  },
+	 
 	  	login({ commit }, { email, password }) {
       return new Promise((resolve, reject) => {
         axios.post('http://localhost:8081/user/login', { email, password })
@@ -136,7 +139,12 @@ export default new Vuex.Store({
 	  
 	logout({commit}){
 		commit("CLEAR_AUTH")
-		console.log("fui usado")
+	},
+	fetchAnimes({commit}){
+		axios.get("http://localhost:8081/anime")
+		.then((response) =>{
+				commit("setAnimes", response.data)
+		})
 	}
 },
   
@@ -144,6 +152,7 @@ export default new Vuex.Store({
   //funcionan como las computed properties.
   getters: {
 	getAnimeById: (state) => (id) => {
+		console.log(id)
 		return state.animes.find((anime) => anime._id === id)
 	  },
 	  

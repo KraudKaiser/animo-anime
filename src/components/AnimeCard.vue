@@ -1,5 +1,5 @@
 <template>
-	<v-card :to="title" class="mx-auto" max-width="150">
+	<v-card :to="`/anime/${id}`" class="mx-auto" max-width="150">
 	  <v-img :src="imageUrl" height="200px"></v-img>
 	  <v-card-title>{{ title }}</v-card-title>	</v-card>
   </template>
@@ -8,6 +8,10 @@
   export default {
 	name: 'AnimeCard',
 	props: {
+		id:{
+			type:String,
+			required:true
+		},
 	  title: {
 		type: String,
 		required: true

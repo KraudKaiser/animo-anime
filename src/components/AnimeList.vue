@@ -12,9 +12,9 @@
 		  <v-card>
 			<v-img :src="anime.posterUrl" height="400px"></v-img>
 			<v-card-title>{{ anime.title }}</v-card-title>
-			<v-card-subtitle>{{ anime.genre }}</v-card-subtitle>
+			<v-card-subtitle>{{ anime.category.name}}</v-card-subtitle>
 			<v-card-actions>
-			  <v-btn :to="`${anime.title}`" text>Ver más</v-btn>
+			  <v-btn :to="`/anime/${anime._id}`" text>Ver más</v-btn>
 			  <v-icon
             @click="toggleLike(index)"
             :class="{ 'red--text': anime.isLiked }"

@@ -10,8 +10,8 @@
 		</v-btn>
 		<v-spacer></v-spacer>
 		<v-btn class="py-2 ma-1"
-		v-for="link in links"
-		:key="link"
+		v-for="(link, index) in links"
+		:key="index"
 		:to="link.path"
 		>
 		{{ link.title }}
