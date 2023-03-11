@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
+import store from '@/store'
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,7 +26,10 @@ const routes = [
   {
 	path:"/profile",
 	name:"profile",
-	component:() => import("../views/ProfileView.vue")
+	component:() => import("../views/ProfileView.vue"),
+	meta:{
+		requiresAuth:true
+	}
   },
   {
 	path:"/login",
@@ -45,5 +48,17 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+	if (to.matched.some(route => route.meta.requiresAuth)) {
+	  if (store.getters.isAuthenticated) {
+		next();
+	  } else {
+		next('/login');
+	  }
+	} else {
+	  next();
+	}
+  });
 
 export default router

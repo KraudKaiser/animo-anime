@@ -46,7 +46,6 @@ export default {
   },
 
   methods: {
-    ...mapActions(['logout']),
 	...mapMutations(["toggleLike"])
   },
 
