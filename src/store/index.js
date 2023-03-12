@@ -54,21 +54,34 @@ export default new Vuex.Store({
 		localStorage.removeItem("token")
 	  },
 	  //Activa o desactiva like
-	  toggleLike(state, index) {
-		state.user.animes[index].isLiked = !state.user.animes[index].isLiked
-	  },
+	  
 		addCategory(state, category) {
 		  state.categories.push(category)
 		},
 		addAnime(state, anime) {
 		  state.animes.push(anime)
 		},
-		
+		setLike(state,{user, index}) {
+			const anime = state.animes[index]
+			if (anime) {
+				const likes = anime.likes || [];
+				const index = likes.indexOf(user._id);
+				if (index >= 0) {
+				  likes.splice(index, 1);
+				} else {
+				  likes.push(user._id);
+				}
+				anime.likes = likes;
+			  }
+		},
 	  },
   //Actions es para cambiar las variables de state async
   //pero debe hacer commit de las variables en mutations
   //reciben contexto, destructurandolo a commit
   actions: {
+	setToken({commit}, token){
+		commit("SET_TOKEN", token)
+	},
 	  addAnime({commit},anime) {
 		return new Promise((resolve, reject )=>{
 			axios.post("http://localhost:8081/anime/", anime)
@@ -145,6 +158,29 @@ export default new Vuex.Store({
 		.then((response) =>{
 				commit("setAnimes", response.data)
 		})
+	},
+	fetchLike({commit}, like,index){
+		if(this.state.user === null){
+			commit("setSnackBar", {color:"error", text:"Inicia sesion para dar Like"})
+		}
+		commit("setLike",{user: this.state.user, index})
+
+		axios.post("http://localhost:8081/anime/like", like)
+		.then((response) =>{
+			console.log(response)
+		})
+		
+	},
+	fetchUser({commit}, token){
+		axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.get('http://localhost:8081/user/login/token')
+          .then((response) => {
+            const user = response.data;
+            commit('SET_USER', user);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
 	}
 },
   
@@ -152,7 +188,6 @@ export default new Vuex.Store({
   //funcionan como las computed properties.
   getters: {
 	getAnimeById: (state) => (id) => {
-		console.log(id)
 		return state.animes.find((anime) => anime._id === id)
 	  },
 	  

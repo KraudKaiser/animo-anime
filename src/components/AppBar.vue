@@ -49,7 +49,7 @@
 					<v-list-item-title>Panel de administración</v-list-item-title>
 				</v-list-item>
 				<v-divider></v-divider>
-				<v-list-item to="/" @click="handleLogout">
+				<v-list-item to="/">
 					<v-list-item-title>Cerrar sesión</v-list-item-title>
 				</v-list-item>
 			</v-list>

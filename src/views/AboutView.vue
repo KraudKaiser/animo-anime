@@ -22,31 +22,11 @@
 			<v-row>
 				<v-col cols="12" md="4">
 					<v-card>
-						<v-img src="/images/team-member-1.png" height="400px" />
-						<v-card-title>John Doe</v-card-title>
+						<v-img src="../assets/fundador.jpg" height="400px" />
+						<v-card-title>Ramiro Gimenez</v-card-title>
 						<v-card-subtitle>Fundador</v-card-subtitle>
 						<v-card-text>
-							John es el fundador de Animo Time. Ha sido un fanático del anime desde su infancia y decidió crear esta página para compartir su pasión con otros fans.
-				</v-card-text>
-			</v-card>
-		</v-col>
-		<v-col cols="12" md="4">
-			<v-card>
-				<v-img src="/images/team-member-2.png" height="400px" />
-				<v-card-title>Jane Smith</v-card-title>
-				<v-card-subtitle>Editora de contenido</v-card-subtitle>
-				<v-card-text>
-					Jane es la editora de contenido de Animo Time. Es una apasionada del anime y trabaja duro para ofrecer artículos interesantes y relevantes para nuestra comunidad.
-				</v-card-text>
-			</v-card>
-		</v-col>
-		<v-col cols="12" md="4">
-			<v-card>
-				<v-img src="/images/team-member-3.png" height="400px" />
-				<v-card-title>Mark Johnson</v-card-title>
-				<v-card-subtitle>Desarrollador web</v-card-subtitle>
-				<v-card-text>
-					Mark es el desarrollador web de Animo Time. Trabaja constantemente para mejorar la página y ofrecer una experiencia única a nuestros usuarios.
+							Ramiro es el fundador de Animo Time. Ha sido un fanático del anime desde su infancia y decidió crear esta página para compartir su pasión con otros fans.
 				</v-card-text>
 			</v-card>
 		</v-col>

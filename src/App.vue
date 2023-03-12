@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import SnackBar from './components/SnackBar.vue';
 export default {
   name: 'App',
@@ -18,11 +18,31 @@ export default {
   data: () => ({
     //
   }),
-  created(){
-    this.fetchAnimes()
+  computed:{
+    ...mapState(["token","user"]),
   },
   methods:{
-    ...mapActions(["fetchAnimes"])
-  }
+    ...mapActions(["fetchUser","fetchAnimes", "setToken"]),
+    handleLocalToken(){
+      if (!this.token) {
+      const token = localStorage.getItem('token') || getCookie('token');
+      if (token) {
+        this.setToken(token)
+      }
+    }
+    },
+    handleUser(){
+      if (!this.user) {
+      if (this.token) {
+        this.fetchUser(this.token)
+      }
+    }
+    }
+  },
+  created(){
+    this.handleLocalToken()
+    this.handleUser()
+    this.fetchAnimes()  
+  },
 }
 </script>

@@ -8,13 +8,12 @@
     >
       <v-slide-item
 	  class="mb-16"
-        v-for="(anime) in animes"
-        :key="anime.id"
+        v-for="(anime, index) in animes"
+        :key="anime._id"
 		
       >
-        <anime-card 
-		:title="anime.title"
-		:image-url="anime.poster"></anime-card>
+        <anime-card
+		:anime="anime" :index="index"></anime-card>
       </v-slide-item>
     </v-slide-group>
    
@@ -22,7 +21,7 @@
 
 <script>
 import AnimeCard from './AnimeCard.vue';
-import {mapState, mapActions} from "vuex"
+import {mapState} from "vuex"
 export default {
 	components:{
 		AnimeCard
@@ -30,22 +29,7 @@ export default {
 	computed:{
 			...mapState(["animes"])
 		},
-		data(){
-			return{
-				movies:[
-					{
-						title:"pelicula 1",
-						description:"descripcion de la pelicula 1",
-						poster:"https://static.wikia.nocookie.net/deathnote/images/0/05/Death-note-xd.jpg/revision/latest?cb=20110803022625&path-prefix=es"
-					}
-				]
-			}
-		},
-		mounted(){
-			this.fetchAnimes()
-		},
 		methods:{
-			...mapActions(["fetchAnimes"])
 		}
 	}
 </script>
