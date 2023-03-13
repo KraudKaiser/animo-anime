@@ -1,6 +1,6 @@
 <template>
-	<v-container>
-	  <v-row>
+	<v-container class="">
+	  <v-row class="d-flex justify-center align-center align-self-center">
 		<v-col
 		  v-for="(anime, index) in animes"
 		  :key="anime._id"

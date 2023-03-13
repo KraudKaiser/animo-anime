@@ -1,11 +1,14 @@
 <template>
 	<v-app>
 		<app-bar></app-bar>
-		<v-main class="">
+		<v-main class="grey lighten-3">
 
-			<v-container>
-				<h1>Directorio de anime</h1>
-				<AnimeList />
+			
+			<v-container class="d-flex flex-column justify-center">
+				<h1>Nuestro Catalogo Completo</h1>
+				<v-sheet class="d-flex">
+					<AnimeList/>
+				</v-sheet>
 			</v-container>
 		</v-main>
 	</v-app>

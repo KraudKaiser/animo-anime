@@ -2,21 +2,32 @@
 	<v-app>
 		<app-bar></app-bar>
 		<v-main class="grey lighten-3">
-      <v-container>
-			<v-sheet>
-    <h1>{{ user.name }}</h1>
-    <h2>{{ user.email }}</h2>
+      <v-container class="d-flex justify-center flex-column">
+			<v-sheet class="d-flex justify-center flex-column">
+    <h1 class="d-flex justify-center">{{ user.name }}</h1>
+    <h2 class="d-flex justify-center">{{ user.email }}</h2>
 
+    <v-list class="pa-5 d-flex flex-column">
     <h3>Animes favoritos</h3>
-    <v-list>
-      <v-list-item
-        v-for="(anime, index) in animes"
-        :key="index"
-      >
-        <v-list-item-title>{{ anime.title }}</v-list-item-title>
-        <v-list-item-subtitle>{{ anime.category.name }}</v-list-item-subtitle>
-        
-      </v-list-item>
+	<v-row class="d-flex justify-center">
+		<v-col class="d-flex justify-center"><h2>Anime</h2></v-col>
+		<v-col class="d-flex justify-center"><h2>Categoria</h2></v-col>
+	</v-row>
+	<v-row>
+		<v-list-item
+		v-for="(anime, index) in animes"
+		:key="index"
+		class="d-flex"
+		>
+		<v-col>
+			<v-list-item-title class="d-flex justify-center"  >{{ anime.title }}</v-list-item-title>
+		</v-col>
+		<v-col>
+			<v-list-item-subtitle class="d-flex justify-center">{{ anime.category.name }}</v-list-item-subtitle>
+		</v-col>
+		
+	</v-list-item>
+</v-row>
     </v-list>
   </v-sheet>
   <v-sheet>

@@ -4,7 +4,7 @@
 				<v-img :src="anime.thumbnail" height="300" width="250" ></v-img>
 				<v-card-title>{{ anime.title }}</v-card-title>
 				<v-card-subtitle>{{ anime.category.name}}</v-card-subtitle>
-				<v-card-actions>
+				<v-card-actions class="d-flex justify-space-around" width="100%">
 					<v-btn :to="`/anime/${anime._id}`" text>Ver más</v-btn>
 					<v-icon
 					@click="toggleLike(index)"

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <v-card>
+      <v-card class="ma-5">
         <v-card-title>Dejar un comentario</v-card-title>
         <v-card-text>
           <v-form>
@@ -22,7 +22,7 @@
   
       <v-divider></v-divider>
   
-      <v-card v-for="(comment, index) in anime.comments" :key="index">
+      <v-card class="ma-5" v-for="(comment, index) in anime.comments" :key="index">
         <v-card-title>{{ comment.author }}</v-card-title>   
         <v-rating :value="comment.rating" readonly>{{ comment.rating }}</v-rating>
         <v-card-text>{{ comment.comment }}</v-card-text>
@@ -31,7 +31,7 @@
   </template>
   
   <script>
-  import {mapState, mapActions} from "vuex"
+  import {mapState, mapActions, mapMutations} from "vuex"
   export default {
     data() {
       return {
@@ -44,14 +44,19 @@
     },
     methods: {
         ...mapActions(["addCommentary"]),
+		...mapMutations(["setSnackBar"]),
       newComment() {
-        if (this.rating && this.comment) {
-            const animeId = this.anime._id
-          const comment = { author:this.user.name, rating: this.rating, comment: this.comment, animeId};
-          this.addCommentary(comment)
-          this.rating = 0;
-          this.comment = "";
-        }
+		if(this.user === null){
+			this.setSnackBar({color:"error", text:"No puedes comentar si no has iniciado sesion"})
+		}else{
+			if (this.rating && this.comment) {
+				const animeId = this.anime._id
+				const comment = { author:this.user.name, rating: this.rating, comment: this.comment, animeId};
+				this.addCommentary(comment)
+				this.rating = 0;
+				this.comment = "";
+			}
+		}
       },
     },
     props:{

@@ -127,13 +127,16 @@ export default new Vuex.Store({
 			})
 		},
 		addCommentary({commit}, data){
-			const {author, comment, rating, animeId} = data
-			commit("addComment", {author, animeId, comment, rating})
-			axios.post("http://localhost:8081/anime/createComment", {author, animeId, comment, rating})
-			.then((response) =>{
-				console.log(response)
-			})
-		},
+			if(this.state.user === null){
+				commit("setSnackBar", {color:"error", text:"Inicia sesion para guardar tu Like"})
+			}else{
+				const {author, comment, rating, animeId} = data
+				commit("addComment", {author, animeId, comment, rating})
+				axios.post("http://localhost:8081/anime/createComment", {author, animeId, comment, rating})
+				.then((response) =>{
+				})
+			}
+			},
 			
   
 	 
@@ -143,18 +146,12 @@ export default new Vuex.Store({
           .then((response) => {
             const token = response.data.token
             const user = response.data.user
-            // Guardar el token y el usuario en el estado
             commit('SET_TOKEN', token)
             commit('SET_USER', user)
-            // Guardar el token en el almacenamiento local
-
-
-
-            // Resolver la promesa
             resolve()
           })
           .catch((e) => {
-            // Rechazar la promesa con el error
+			commit("setSnackBar", {color:"error", text:e.response.data.error})
             reject(e)
           })
       })
@@ -191,17 +188,16 @@ export default new Vuex.Store({
 	},
 	fetchLike({commit}, {like, index}){
 		if(this.state.user === null){
-			commit("setSnackBar", {color:"error", text:"Inicia sesion para dar Like"})
+			commit("setSnackBar", {color:"error", text:"Inicia sesion para guardar tu Like"})
+		}else{
+
+			commit("setLike",{user: this.state.user, index})
+			axios.post("http://localhost:8081/anime/like", {
+				like: like,
+				animeId: this.state.animes[index]._id,
+				userId: this.state.user._id
+			})
 		}
-		commit("setLike",{user: this.state.user, index})
-		axios.post("http://localhost:8081/anime/like", {
-			like: like,
-			animeId: this.state.animes[index]._id,
-			userId: this.state.user._id
-		})
-		.then((response) =>{
-			console.log(response)
-		})
 		
 	},
 	fetchUser({commit}, token){

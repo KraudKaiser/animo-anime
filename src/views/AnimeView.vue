@@ -1,8 +1,8 @@
 <template>
   <v-app id="inspire">
     <app-bar></app-bar>
-    <v-main class="grey lighten-3">
-        <v-sheet class="pa-3">
+    <v-main class="grey lighten-3 pa-5 ">
+        <v-sheet class="pa-3" v-if="anime">
             <h1 class="pa-3">{{anime.title }}</h1>
             <v-sheet class="d-flex justify-space-around" >
                 <v-sheet>
@@ -16,20 +16,31 @@
                 </v-sheet>
                 <v-sheet class="d-flex flex-column justify-center pa-5 ma-5">
                     <h1 class="d-flex justify-center">Episodios</h1>
-                    <v-sheet class="d-flex pa-5 justify-center">
-                <v-card class="pa-6" :key="chapter._id" v-for="(chapter, index) in anime.chapters">
+                    <v-sheet class="d-flex pa-5 ma.5 justify-center">
+                <v-card class="pa-5 ma-5" :key="chapter._id" v-for="(chapter, index) in anime.chapters">
                     <v-img :src="anime.thumbnail" height="150px" width="200px"></v-img>
                     <v-card-title>{{`Capitulo ${index + 1}` }}</v-card-title>
             </v-card>
         </v-sheet>
     </v-sheet>
-    -
     <v-sheet>
-    <anime-comment :anime="anime"></anime-comment>
+		<anime-comment :anime="anime"></anime-comment>
+	</v-sheet>
 </v-sheet>
-</v-sheet>
+<v-sheet class="d-flex justify-center" v-else>
+	<v-container class="d-flex flex-column justify-center align-center">
+		<h1 >Ups, parece no existir el anime que buscas</h1>
+		<h2>Pero podria interesarte estos...</h2>
+		
+			<anime-sheet></anime-sheet>		
+	
 
+	</v-container>
+
+</v-sheet>
 </v-main>
+
+-
 </v-app>
 </template>
 
@@ -37,10 +48,12 @@
 import AppBar from '@/components/AppBar.vue';
 import { mapGetters } from 'vuex';
 import AnimeComment from '@/components/AnimeComment.vue';
+import AnimeSheet from '@/components/AnimeSheet.vue';
 export default {
     components:{
         AppBar,
-        AnimeComment
+        AnimeComment,
+		AnimeSheet
     },
     methods:{
 
