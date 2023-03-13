@@ -1,7 +1,7 @@
 <template>
 	<v-container>
 			<v-card>
-				<v-img :src="anime.thumbnail" height="300" width="250" ></v-img>
+				<v-img :src="anime.thumbnail" height="300" width="250" contain ></v-img>
 				<v-card-title>{{ anime.title }}</v-card-title>
 				<v-card-subtitle>{{ anime.category.name}}</v-card-subtitle>
 				<v-card-actions class="d-flex justify-space-around" width="100%">
