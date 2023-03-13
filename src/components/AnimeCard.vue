@@ -1,10 +1,9 @@
 <template>
-	<v-container>
-			<v-card>
-				<v-img :src="anime.thumbnail" height="300" width="250" contain ></v-img>
+			<v-card elevation="3" class="d-flex flex-column justify-center align-center pa-5"  width="auto" max-width="350" height="auto" max-height="600">
+				<v-img :src="anime.thumbnail" weight="300" width="250" contain ></v-img>
 				<v-card-title>{{ anime.title }}</v-card-title>
 				<v-card-subtitle>{{ anime.category.name}}</v-card-subtitle>
-				<v-card-actions class="d-flex justify-space-around" width="100%">
+				<v-card-actions class="d-flex justify-space-around">
 					<v-btn :to="`/anime/${anime._id}`" text>Ver más</v-btn>
 					<v-icon
 					@click="toggleLike(index)"
@@ -14,7 +13,6 @@
 				</v-icon>
 			</v-card-actions>
 		</v-card>
-	</v-container>
   </template>
   
   <script>

@@ -4,7 +4,7 @@
 		<v-main class="grey lighten-3" v-if="animes.length !== 0">	
 		<v-container class="d-flex flex-column justify-center">
 				<h1>Nuestro Catalogo Completo</h1>
-				<v-sheet class="d-flex">
+				<v-sheet class="d-flex pa-5 ma-5">
 					<AnimeList/>
 				</v-sheet>
 			</v-container>

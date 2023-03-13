@@ -4,9 +4,7 @@
             <app-bar></app-bar>
             <v-container v-if="searchResults.length !== 0">
                 <h1>Estos son los resultados:</h1>
-                <v-sheet >
                     <anime-card :key="anime._id" v-for="(anime, index) in searchResults" :anime="anime" :index="index" ></anime-card>
-                </v-sheet>
                 </v-container>
                 <v-container v-else>
                     <h2>Ups, parece que el anime que buscas no se encuentra disponible</h2>

@@ -11,17 +11,11 @@
 			
 					
 						<v-card width="100%">
-								<v-row class="d-flex justify-center align-center align-self-center">
-									<v-col
-									v-for="anime in filteredAnimes"
-									:key="anime._id"
-									cols="12"
-									sm="6"
-									md="4"
-									lg="3"
-									>
+								<v-row class="d-flex justify-center align-center align-self-center pa-5" v-for="anime in filteredAnimes"
+								:key="anime._id">
+									
 									<anime-card :anime="anime" :index="index"></anime-card>
-								</v-col>
+								
 							</v-row>
 					</v-card>
 				

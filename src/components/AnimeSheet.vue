@@ -2,12 +2,12 @@
 	
     <v-slide-group
       v-model="model"
-      class="py-16"
+      class="pa-16"
       active-class="success"
       show-arrows
     >
       <v-slide-item
-	  class="mb-16"
+	  class="pa-5 mb-16"
         v-for="(anime, index) in animes"
         :key="anime._id"
 		
