@@ -28,12 +28,7 @@
 
 	
 	<v-menu offset-y>
-	<template v-slot:activator="{ on }">
-				<v-avatar>
-					<v-btn v-on="on">{{ /*user.email*/ }}<v-icon>
-						mdi-account
-					</v-icon></v-btn>
-				</v-avatar>
+	<template >
 				</template>
 				<v-list v-if="user === null">
 				<v-list-item to="/login" >

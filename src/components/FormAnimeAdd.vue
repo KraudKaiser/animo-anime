@@ -1,4 +1,3 @@
-// AnimeForm.vue
 <template>
   <v-form @submit.prevent="submitAnime">
     <v-container>

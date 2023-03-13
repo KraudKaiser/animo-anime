@@ -83,14 +83,14 @@ export default new Vuex.Store({
 		setLike(state,{user, index}) {
 			const anime = state.animes[index]
 			if (anime) {
-				const likes = anime.likes || [];
-				const index = likes.indexOf(user._id);
+				const likes = anime.likes || []
+				const index = likes.indexOf(user._id)
 				if (index >= 0) {
-				  likes.splice(index, 1);
+				  likes.splice(index, 1)
 				} else {
-				  likes.push(user._id);
+				  likes.push(user._id)
 				}
-				anime.likes = likes;
+				anime.likes = likes
 			  }
 		},
 	  },
@@ -201,15 +201,15 @@ export default new Vuex.Store({
 		
 	},
 	fetchUser({commit}, token){
-		axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+		axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         axios.get('http://localhost:8081/user/login/token')
           .then((response) => {
-            const user = response.data;
-            commit('SET_USER', user);
+            const user = response.data
+            commit('SET_USER', user)
           })
           .catch((error) => {
-            console.error(error);
-          });
+            console.error(error)
+          })
 	},
 	fetchSearchAnime({commit}, searchTerm){
 		axios.get(`http://localhost:8081/anime/query?q=${searchTerm}`)

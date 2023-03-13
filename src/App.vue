@@ -16,7 +16,6 @@ export default {
     SnackBar
   },
   data: () => ({
-    //
   }),
   computed:{
     ...mapState(["token","user"]),
