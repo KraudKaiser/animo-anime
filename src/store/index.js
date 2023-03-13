@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios"
-
+import VueRouter from 'vue-router'
 Vue.use(Vuex)
 
 
@@ -17,6 +17,7 @@ export default new Vuex.Store({
 	routes:["/","/directory", "/features","/about"],
 	animes:[],
 	categories:[],
+	searchResults: [],
 	//Login
 	user:null,
 	token: null,
@@ -30,9 +31,15 @@ export default new Vuex.Store({
   //reciben siempre como primer parametro state
   //actua sincronamente (no .then o async)
   mutations: {
+	setCategories(state, categories){
+		state.categories = categories
+	},
 	setAnimes(state, animes){
 		state.animes = animes
 	},
+	setSearchResults(state, results) {
+		state.searchResults = results
+	  },
 	setSnackBar(state, data){
 		const {color, text} = data
 			state.snackbar.show = true	
@@ -46,7 +53,19 @@ export default new Vuex.Store({
 	
 	  SET_TOKEN(state, token) {
 		state.token = token
+		localStorage.setItem('token', token)
 	  },
+	  addComment(state, {author, comment, rating, animeId}){
+		const commentary = {
+			author,
+			comment,
+			rating
+		}
+		const anime = state.animes.find(anime => anime._id === animeId )
+		
+		anime.comments.push(commentary)
+		
+	},
 	
 	  CLEAR_AUTH(state) {
 		state.user = null
@@ -83,17 +102,17 @@ export default new Vuex.Store({
 		commit("SET_TOKEN", token)
 	},
 	  addAnime({commit},anime) {
-		return new Promise((resolve, reject )=>{
-			axios.post("http://localhost:8081/anime/", anime)
-			.then((response) =>{
-				commit("setSnackBar",{color:"green", text:`El anime ${response.data.title} ha sido añadido exitosamente`})
-				resolve()
+		  axios.post('http://localhost:8081/anime/', anime, {
+			headers: {
+				"Content-Type": 'multipart/form-data'
+			  }
+		  })
+		  .then((response)=>{
+			commit("setSnackBar",{color:"green", text:`El anime ${response.data.title} ha sido añadido exitosamente`})
+		  })
+		  .catch((e)=>{
+			  commit("setSnackBar", {color:"error", text:e.response.data.error})
 			})
-			.catch((e)=>{
-				commit("setSnackBar", {color:"error", text:e.response.data.error})
-				reject()
-			})
-		})
 	  },
 	  addCategory({commit}, category){
 		  return new Promise((resolve, reject)=>{
@@ -105,6 +124,14 @@ export default new Vuex.Store({
 					reject(e)
 					commit("setSnackBar", {color:"error", text:"Ocurrio un error, Quizas la categoria ya existe"})
 				})
+			})
+		},
+		addCommentary({commit}, data){
+			const {author, comment, rating, animeId} = data
+			commit("addComment", {author, animeId, comment, rating})
+			axios.post("http://localhost:8081/anime/createComment", {author, animeId, comment, rating})
+			.then((response) =>{
+				console.log(response)
 			})
 		},
 			
@@ -120,7 +147,9 @@ export default new Vuex.Store({
             commit('SET_TOKEN', token)
             commit('SET_USER', user)
             // Guardar el token en el almacenamiento local
-            localStorage.setItem('token', token)
+
+
+
             // Resolver la promesa
             resolve()
           })
@@ -137,10 +166,10 @@ export default new Vuex.Store({
 			.then((response) =>{
 				const token = response.data.token
 				const user = response.data.user
-
 				commit("SET_TOKEN", token)
 				commit("SET_USER", user)
 				localStorage.setItem('token', token)
+
             // Resolver la promesa
             resolve()
 			})
@@ -152,6 +181,7 @@ export default new Vuex.Store({
 	  
 	logout({commit}){
 		commit("CLEAR_AUTH")
+		
 	},
 	fetchAnimes({commit}){
 		axios.get("http://localhost:8081/anime")
@@ -159,13 +189,16 @@ export default new Vuex.Store({
 				commit("setAnimes", response.data)
 		})
 	},
-	fetchLike({commit}, like,index){
+	fetchLike({commit}, {like, index}){
 		if(this.state.user === null){
 			commit("setSnackBar", {color:"error", text:"Inicia sesion para dar Like"})
 		}
 		commit("setLike",{user: this.state.user, index})
-
-		axios.post("http://localhost:8081/anime/like", like)
+		axios.post("http://localhost:8081/anime/like", {
+			like: like,
+			animeId: this.state.animes[index]._id,
+			userId: this.state.user._id
+		})
 		.then((response) =>{
 			console.log(response)
 		})
@@ -181,6 +214,18 @@ export default new Vuex.Store({
           .catch((error) => {
             console.error(error);
           });
+	},
+	fetchSearchAnime({commit}, searchTerm){
+		axios.get(`http://localhost:8081/anime/query?q=${searchTerm}`)
+		.then((response) =>{
+			commit("setSearchResults", response.data)
+		})
+	},
+	fetchCategories({commit}){
+		axios.get("http://localhost:8081/category")
+		.then((response) =>{
+			commit("setCategories", response.data)
+		})
 	}
 },
   
@@ -192,6 +237,7 @@ export default new Vuex.Store({
 	  },
 	  
 	isAuthenticated: state => !!state.token,
+	searchResults: state => state.searchResults
 		
 	},
   modules: {

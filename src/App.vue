@@ -22,17 +22,17 @@ export default {
     ...mapState(["token","user"]),
   },
   methods:{
-    ...mapActions(["fetchUser","fetchAnimes", "setToken"]),
+    ...mapActions(["fetchCategories", "fetchUser","fetchAnimes", "setToken"]),
     handleLocalToken(){
       if (!this.token) {
-      const token = localStorage.getItem('token') || getCookie('token');
+      const token = localStorage.getItem('token');
       if (token) {
         this.setToken(token)
       }
     }
     },
     handleUser(){
-      if (!this.user) {
+      if (this.user === null) {
       if (this.token) {
         this.fetchUser(this.token)
       }
@@ -43,6 +43,7 @@ export default {
     this.handleLocalToken()
     this.handleUser()
     this.fetchAnimes()  
+    this.fetchCategories()
   },
 }
 </script>

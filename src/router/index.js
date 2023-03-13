@@ -4,6 +4,16 @@ import HomeView from '../views/HomeView.vue'
 import store from '@/store'
 Vue.use(VueRouter)
 
+
+function isAdmin(to, from, next) {
+  const currentUser = store.state.user
+  if (currentUser && currentUser.admin) {
+    next()
+  } else {
+    next('/')
+  }
+}
+
 const routes = [
   {
     path: '/',
@@ -39,12 +49,19 @@ const routes = [
   {
     path:"/admin",
     name:"admin",
-    component:() => import("../views/AdminProfileView.vue")
+    component:() => import("../views/AdminProfileView.vue"),
+    beforeEnter: isAdmin
   },
   {
     path:"/anime/:name",
     name:"anime",
     component: () => import("../views/AnimeView.vue")
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import("../views/SearchView.vue"),
+    props: route => ({ query: route.query.query })
   }
 ]
 

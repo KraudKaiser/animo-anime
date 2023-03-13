@@ -24,6 +24,17 @@
         v-model="anime.description"
         required
       ></v-textarea>
+      <v-row>
+          <v-col cols="12" md="6">
+            <v-file-input
+              label="Thumbnail"
+              v-model="anime.thumbnail"
+              accept="image/*"
+              @change="onThumbnailChange"
+            ></v-file-input>
+          </v-col>
+      </v-row>
+
       <v-divider></v-divider>
       <h4>Episodes</h4>
       <v-row>
@@ -50,7 +61,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -58,36 +69,40 @@ export default {
         title: '',
         description: '',
         category: '',
-        chapters: []
+        chapters: [],
+        thumbnail: null,
       },
       newEpisode: '',
     }
   },
   computed: {
-    categories() {
-      // Aquí puedes reemplazar este arreglo de ejemplo con las categorías de tu propia aplicación
-      return ['Action', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Romance', 'Science Fiction']
-    },
+    ...mapState({
+      categories: state => state.categories.map(category => category.name)
+    })
   },
   methods: {
     ...mapActions(["addAnime"]),
-    submitAnime() {
-      this.addAnime({
-        title:this.anime.title,
-        description:this.anime.description,
-        category:this.anime.category,
-        chapters:this.anime.chapters,
-    })
-    },
-    addEpisode(){
-        this.anime.chapters.push({name:this.newEpisode}).then(()=>{
-            console.log("Episodio añadido con exito")
-        })
-        
+    onThumbnailChange(event) {
+        console.log(event)
+         const file = event;
+         this.anime.thumbnail = file
+  }, 
+  addEpisode(){
+      const obj = { name:this.newEpisode }
+        this.anime.chapters.push(obj) 
     },
     deleteEpisode(index){
         this.anime.chapters.splice(index, 1)
     },
+  submitAnime() {
+    const formData = new FormData();
+      formData.append("title", this.anime.title);
+      formData.append("description", this.anime.description);
+      formData.append("category", this.anime.category);
+      formData.append('chapters', JSON.stringify(this.anime.chapters));
+      formData.append("thumbnail", this.anime.thumbnail);
+      this.addAnime(formData)
+}
 }
 }
 </script>

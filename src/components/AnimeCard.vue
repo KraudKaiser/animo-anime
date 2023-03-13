@@ -1,7 +1,7 @@
 <template>
 	<v-container>
 			<v-card>
-				<v-img :src="anime.imageUrl" height="400px"></v-img>
+				<v-img :src="anime.thumbnail" height="300" width="250" ></v-img>
 				<v-card-title>{{ anime.title }}</v-card-title>
 				<v-card-subtitle>{{ anime.category.name}}</v-card-subtitle>
 				<v-card-actions>
@@ -35,9 +35,9 @@
 	},
 	methods:{
 		...mapActions(["fetchLike"]),
-		toggleLike(index){
+		toggleLike(){
 			this.isLiked = !this.isLiked
-			this.fetchLike(this.isLiked,index)
+			this.fetchLike({like: this.isLiked, index: this.index})
 		}
 	},
 
@@ -47,8 +47,6 @@
 		}else{
 			this.isLiked = false
 		}
-	  // Aquí puedes enviar una solicitud al servidor para obtener la lista de animes.
-	  // Luego, actualiza el estado de Vuex usando la mutación SET_ANIMES.
 	},
   };
   </script>

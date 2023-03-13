@@ -1,42 +1,26 @@
 <template>
 	<v-container>
-	  <v-row>
-		<v-col>
-			<v-text-field @keyup.enter="search()" prepend-inner-icon="mdi-magnify"
-			dense
+	  <v-text-field
+	 		 dense
 			flat
 			hide-details
 			rounded
 			solo-inverted
-			></v-text-field>
-		</v-col>
-	  </v-row>
-	  <v-row v-if="pressed">
-		<v-col>
-		  <v-list>
-			<v-list-item v-for="result in results" :key="result.mal_id">
-			  <v-list-item-content>
-				<v-list-item-title>{{ result.title }}</v-list-item-title>
-			  </v-list-item-content>
-			</v-list-item>
-		  </v-list>
-		</v-col>
-	  </v-row>
+	  @keyup.enter="querySearch" v-model="queryText" label="Buscar anime"></v-text-field>
 	</v-container>
   </template>
   
   <script>
-  import { mapActions } from 'vuex';
   export default {
 	data() {
 	  return {
-		searchTerm: '',
-		results: [],
-		pressed:false
+		queryText: ''
 	  }
 	},
-	computed:{
-		...mapActions(["searchAnime"])
+	methods: {
+	 querySearch() {
+		this.$router.push(`/search?query=${this.queryText}`)
+	  }
 	}
   }
   </script>

@@ -3,9 +3,9 @@
 		
 		<app-bar></app-bar>
 		<v-main class="grey lighten-3">
-		<v-container class="d-inline-flex">
-			<top-populars></top-populars>
-			<v-sheet class="d-inline-flex">
+		<v-container class="d-flex flex-column justify-center align-center">
+			<h1> ¡Mira nuestros nuevos añadidos!</h1>
+			<v-sheet class="d-inline-flex ma-5">
 				<anime-sheet></anime-sheet>		
 			</v-sheet>
 	</v-container>
@@ -16,34 +16,13 @@
 	<script>
 	import AppBar from "../components/AppBar.vue"
 	import AnimeSheet from "../components/AnimeSheet.vue"
-	import TopPopulars from '@/components/TopPopulars'
 	import {mapState, mapActions} from "vuex"
 	export default {
 		components:{
 			AppBar,
 			AnimeSheet,
-			TopPopulars,
+
 			
-		},
-		computed:{
-			...mapState("animes", ["animes"])
-		},
-		data(){
-			return{
-				movies:[
-					{
-						title:"pelicula 1",
-						description:"descripcion de la pelicula 1",
-						poster:"https://via.placeholder.com/300x400?text=Pelicula+1"
-					}
-				]
-			}
-		},
-		mounted(){
-			this.fetchAnimes()
-		},
-		methods:{
-			...mapActions("animes", ["fetchAnimes"])
 		}
 	}
 </script>

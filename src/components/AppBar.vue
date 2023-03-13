@@ -4,8 +4,8 @@
 	color="teal lighten-4"
 	flat
 	>
-	<v-container class="py-0 fill-height">
-		<v-btn :class="{'disable-events':'none'}" text :to="routes[0]">
+	<v-container class="py-0 fill-height" :class="{'pointer-events':'none'}">
+		<v-btn  text :to="routes[0]">
 			<h1 class="display-1">¡Animo Time!</h1>
 		</v-btn>
 		<v-spacer></v-spacer>
@@ -45,11 +45,11 @@
 					<v-list-item  to="/profile">
 						<v-list-item-title >Perfil</v-list-item-title>
 					</v-list-item>
-				<v-list-item to="/admin">
+				<v-list-item to="/admin" v-if="user.admin">
 					<v-list-item-title>Panel de administración</v-list-item-title>
 				</v-list-item>
 				<v-divider></v-divider>
-				<v-list-item to="/">
+				<v-list-item to="/" @click="logOut">
 					<v-list-item-title>Cerrar sesión</v-list-item-title>
 				</v-list-item>
 			</v-list>
@@ -68,12 +68,9 @@ import AnimeSearch from "./AnimeSearch.vue";
 	computed: mapState(["links", "routes", "user"]),
 	methods:{
 		...mapActions(["logout"]),
-		handleLogout(){
-			this.logout.then(()=>{
-				this.$router.push = "/"
-			}).catch((e) =>{
-				console.log(e)
-			})
+		logOut(){
+			this.logout()
+			this.$router.push("/")
 		}
 	}
 	

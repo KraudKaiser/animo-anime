@@ -21,12 +21,6 @@ export default {
 	  ...mapActions(["login"]),
 		handleSubmitLogin(){
 			this.login({email:this.email, password:this.password})
-			.then(()=>{
-				this.$router.push("/profile")
-			})
-			.catch((e) =>{
-				console.log(e)
-			})
 		}
 	}
 }
